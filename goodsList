@@ -63,7 +63,7 @@ export default {
       var goodslist = [];//存放数据的数组
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].name.search(this.searchVal) !== -1) {
-          if ((this.checked == true && this.list[i].stocked == true) || this.checked == false) {
+            if ((this.checked && this.list[i].stocked.toString() === 'true') || !this.checked) {
             goodslist.push(this.list[i]);
           }
 
