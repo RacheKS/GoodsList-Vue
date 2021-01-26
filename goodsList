@@ -1,0 +1,107 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.12/vue.js"></script>
+<template>
+  <div id="app">
+    <img src="./assets/logo.png">
+    <router-view/>
+    <div>
+      <input v-model=" searchVal " placeholder="请搜索">
+      <!--      <input v-model="message" placeholder="edit me">-->
+      <p>Search is: {{ searchVal }}</p>
+      <p><input type="checkbox" v-model="checked">Only show products in stock</p>
+    </div>
+
+    <div id="goods">
+
+      <table class="Sporting Goods" id="sporting">
+        <tr>
+          <th>name</th>
+          <th>price</th>
+        </tr>
+        <tr>Sporting Goods</tr>
+        <tr v-for="item in mylist">
+          <td v-if="item.stocked==false&&item.category=='Sporting Goods'" style="color: red">{{ item.name }}</td>
+          <td v-else-if="item.category=='Sporting Goods'">{{ item.name }}</td>
+          <td v-if="item.category=='Sporting Goods'">{{ item.price }}</td>
+        </tr>
+      </table>
+
+      <table id="Electronics" >
+        <tr>Electronics</tr>
+
+        <tr v-for="item in mylist" :key="item.name">
+          <td v-if="item.stocked==false&&item.category=='Electronics'" style="color: red">{{ item.name }}</td>
+          <td v-else-if="item.category=='Electronics'">{{ item.name }}</td>
+          <td v-if="item.category=='Electronics'">{{ item.price }}</td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+</template>
+
+
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      searchVal: '',
+      list: [
+        {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+        {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
+        {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
+        {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
+        {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
+        {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
+      ],
+      message: '',
+      checked: ''
+    }
+  },
+  computed: {
+    mylist: function () {
+      var goodslist = [];//存放数据的数组
+      for (let i = 0; i < this.list.length; i++) {
+        if (this.list[i].name.search(this.searchVal) !== -1) {
+          if ((this.checked == true && this.list[i].stocked == true) || this.checked == false) {
+            goodslist.push(this.list[i]);
+          }
+
+        }
+      }
+      return goodslist
+    }
+  }
+}
+</script>
+
+
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+th {
+  width: 200px;
+  height: 30px;
+  background-color: darkgray;
+  color: white;
+}
+
+td {
+  width: 200px;
+  height: 20px;
+  background-color: lightgrey;
+  color: black;
+}
+#sporting{
+  margin: 0px auto;
+}
+#Electronics{
+  margin: 0px auto;
+}
+</style>
